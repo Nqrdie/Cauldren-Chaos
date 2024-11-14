@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class FallingObjects : MonoBehaviour
+public class ObjectManager : MonoBehaviour
 {
 
     [SerializeField] private GameObject spawnArea;
@@ -21,15 +21,6 @@ public class FallingObjects : MonoBehaviour
         int i = Random.Range(0, objects.Length);
         Instantiate(objects[i], Random.insideUnitSphere * 15 + spawnArea.transform.position, Quaternion.identity);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player"))
-        {
-            other.gameObject.SetActive(false);
-        }
-    }
-
     IEnumerator spawn()
     {
         for(int i = 0; i < 50; i++)

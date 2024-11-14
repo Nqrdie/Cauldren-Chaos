@@ -121,12 +121,10 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer))
         {
             groundNormal = hit.normal;
-            Debug.Log("Ground detected");
             return true;
         }
 
         groundNormal = Vector3.up;
-        Debug.Log("Not grounded");
         return false;
     }
 

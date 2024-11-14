@@ -11,21 +11,25 @@ public class PlayerMovement : MonoBehaviour
     private bool inRange;
     private GameObject enemy;
 
-    
+    [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] float speed;
     [SerializeField] float rotationSpeed;
     [SerializeField] float pushStrength;
+    [SerializeField] float groundCheckDistance = 0.2f;
+    [SerializeField] float stickToGroundForce = 10f;
 
     private void Awake()
     {
-       input = new CauldronChaos();
+        input = new CauldronChaos();
     }
 
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        rb.useGravity = false;  
     }
+
     private void OnEnable()
     {
         input.Enable();
@@ -42,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
         input.Player.Fire.performed -= Push_Performed;
     }
 
-
     public void Push_Performed(InputAction.CallbackContext value)
     {
         if (inRange && enemy != null)
@@ -51,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 enemyRb.AddForce(transform.forward * pushStrength, ForceMode.Impulse);
                 enemy.transform.LookAt(transform.position);
+                enemy.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
         }
     }
@@ -68,25 +72,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = moveVector * speed * Time.fixedDeltaTime * 100;
+        if (IsGrounded(out Vector3 groundNormal))
+        {
+            Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
+            rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
+
+            
+            rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);
+        }
+        else
+        {
+            rb.AddForce(Physics.gravity, ForceMode.Acceleration);
+        }
     }
 
     private void Update()
     {
         if (moveVector != Vector3.zero)
         {
-
             Quaternion toRotation = Quaternion.LookRotation(moveVector, Vector3.up);
-
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
-        {   
-            if (other = other.gameObject.GetComponent<CapsuleCollider>())
+        if (other.CompareTag("Player"))
+        {
+            if (other == other.gameObject.GetComponent<CapsuleCollider>())
             {
                 inRange = true;
                 enemy = other.gameObject;
@@ -98,4 +111,23 @@ public class PlayerMovement : MonoBehaviour
     {
         inRange = false;
     }
+
+    private bool IsGrounded(out Vector3 groundNormal)
+    {
+        
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
+
+
+        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer))
+        {
+            groundNormal = hit.normal;
+            Debug.Log("Ground detected");
+            return true;
+        }
+
+        groundNormal = Vector3.up;
+        Debug.Log("Not grounded");
+        return false;
+    }
+
 }

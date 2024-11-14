@@ -71,7 +71,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        print(moveVector);
         rb.velocity = moveVector * speed * Time.fixedDeltaTime * 100;
     }
 

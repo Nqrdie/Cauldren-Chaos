@@ -47,14 +47,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (inRange && enemy != null)
         {
-            Debug.Log(enemy);
-
             if (enemy.TryGetComponent<Rigidbody>(out Rigidbody enemyRb))
             {
                 enemyRb.AddForce(transform.forward * pushStrength, ForceMode.Impulse);
                 enemy.transform.LookAt(transform.position);
             }
-            //enemy.transform.position += transform.forward * 2;
         }
     }
 
@@ -78,7 +75,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moveVector != Vector3.zero)
         {
-            //transform.forward = moveVector;
 
             Quaternion toRotation = Quaternion.LookRotation(moveVector, Vector3.up);
 

@@ -1,25 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerSelectMenu : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject connectedText;
     [SerializeField] private GameObject readyText;
     [SerializeField] private Button readyButton;
 
-    private void OnPlayerConnected()
-    {
-        connectedText.SetActive(true);
-    }
-
-    private void OnPlayerReady(int playerIndex)
+    public void ShowReadyUI()
     {
         readyText.SetActive(true);
-        readyButton.Select();
+        readyButton.gameObject.SetActive(false);
         connectedText.SetActive(false);
-        Debug.Log($"Player {playerIndex + 1} is ready!");
+        Debug.Log("Updated UI to show ready state.");
+    }
+
+    public void ShowConnectedUI()
+    {
+        connectedText.SetActive(true);
+        readyButton.gameObject.SetActive(true);
+        readyText.SetActive(false);
+        Debug.Log("Updated UI to show connected state.");
     }
 }
-

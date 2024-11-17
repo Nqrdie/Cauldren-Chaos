@@ -9,7 +9,10 @@ public class PConfigManager : MonoBehaviour
     [SerializeField] private int MaxPlayers = 4;
 
     private SceneChanger sceneChanger;
+    private int playerIndex;
     public static PConfigManager instance;
+    [SerializeField] private List<UIManager> uiManagers; 
+
 
     private void Awake()
     {
@@ -22,13 +25,18 @@ public class PConfigManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
             playerConfigs = new List<PConfig>();
-
+            PlayerInputManager.instance.onPlayerJoined += HandlePlayerJoin;
         }
     }
 
     public void ReadyPlayer(int index)
     {
         playerConfigs[index].isReady = true;
+        Debug.Log($"Player {index + 1} is ready!");
+
+        UIManager targetUIManager = playerConfigs[index].uiManager;
+        targetUIManager.ShowReadyUI();
+
         if (playerConfigs.All(p => p.isReady == true))
         {
             sceneChanger.LoadMainScene();
@@ -38,10 +46,23 @@ public class PConfigManager : MonoBehaviour
     public void HandlePlayerJoin(PlayerInput pi)
     {
         Debug.Log("Player Joined " + pi.playerIndex);
-        if(!playerConfigs.Any(p => p.playerIndex == pi.playerIndex)) 
+
+        if (pi.playerIndex < uiManagers.Count)
         {
-            pi.transform.SetParent(transform);
-            playerConfigs.Add(new PConfig(pi));
+            UIManager targetUIManager = uiManagers[pi.playerIndex];
+            targetUIManager.ShowConnectedUI();
+
+            if (!playerConfigs.Any(p => p.playerIndex == pi.playerIndex))
+            {
+                pi.transform.SetParent(transform);
+                playerConfigs.Add(new PConfig(pi, targetUIManager)); 
+            }
+        }
+        else
+        {
+            Debug.LogError("Player index exceeds available UI Managers!");
         }
     }
+
+
 }

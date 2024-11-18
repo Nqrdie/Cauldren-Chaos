@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float groundCheckDistance = 0.2f;
     [SerializeField] float stickToGroundForce = 10f;
 
+    [SerializeField] AudioClip punchSound;
+    [SerializeField] AudioClip walkSound;
+
     private void Awake()
     {
         input = new CauldronChaos();
@@ -55,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
                 enemyRb.AddForce(transform.forward * pushStrength, ForceMode.Impulse);
                 enemy.transform.LookAt(transform.position);
                 enemy.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                AudioManager.instance.PlaySound(punchSound);
             }
         }
     }

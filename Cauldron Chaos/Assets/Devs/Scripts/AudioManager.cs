@@ -16,9 +16,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-     public void PlaySound(AudioClip clip, Transform spawnTransform, float volume)
+     public void PlaySound(AudioClip clip, float volume = 1f, Vector3 spawnPos = default(Vector3))
     {
-        AudioSource audioSource = Instantiate(audioSourceObject, spawnTransform.position, Quaternion.identity);
+        AudioSource audioSource = Instantiate(audioSourceObject, spawnPos, Quaternion.identity);
 
         audioSource.clip = clip;
 
@@ -28,14 +28,14 @@ public class AudioManager : MonoBehaviour
 
         float clipLength = audioSource.clip.length;
 
-        Destroy(audioSource, clipLength);
+       // Destroy(audioSource, clipLength);
     }
 
-    public void PlayRandomSound(AudioClip[] clip, Transform spawnTransform, float volume)
+    public void PlayRandomSound(AudioClip[] clip, Vector3 spawnPos = default(Vector3), float volume = default(float))
     {
         int rand = Random.Range(0, clip.Length);
 
-        AudioSource audioSource = Instantiate(audioSourceObject, spawnTransform.position, Quaternion.identity);
+        AudioSource audioSource = Instantiate(audioSourceObject, spawnPos, Quaternion.identity);
 
         audioSource.clip = clip[rand];
 

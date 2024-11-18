@@ -31,13 +31,14 @@ public class PConfigManager : MonoBehaviour
 
     public void ReadyPlayer(int index)
     {
+        Debug.Log(index);
         playerConfigs[index].isReady = true;
         Debug.Log($"Player {index + 1} is ready!");
 
         UIManager targetUIManager = playerConfigs[index].uiManager;
         targetUIManager.ShowReadyUI();
 
-        if (playerConfigs.All(p => p.isReady == true))
+        if (playerConfigs.All(p => p.isReady == true) && playerConfigs.Count >= 2)
         {
             sceneChanger.LoadMainScene();
         }

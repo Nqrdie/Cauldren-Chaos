@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private bool inRange;
     private GameObject enemy;
+    private PConfig playerConfig;
 
     [SerializeField] private LayerMask groundLayer;
 
@@ -48,6 +50,22 @@ public class PlayerMovement : MonoBehaviour
         input.Player.Move.canceled -= Move_canceled;
         input.Player.Fire.performed -= Push_Performed;
     }
+
+    public void initializePlayer(PConfig pc)
+    {
+        playerConfig = pc;
+        playerConfig.input.onActionTriggered += Input_onActionTriggered;
+    }
+
+    private void Input_onActionTriggered(CallbackContext obj)
+    {
+        if (obj.action.name == input.Player.Move.name)
+        {
+            Move_performed(obj);
+        }
+    }
+
+ 
 
     public void Push_Performed(InputAction.CallbackContext value)
     {
@@ -89,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Physics.gravity, ForceMode.Acceleration);
         }
     }
+
 
     private void Update()
     {

@@ -25,7 +25,7 @@ public class PConfigManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
             playerConfigs = new List<PConfig>();
-            PlayerInputManager.instance.onPlayerJoined += HandlePlayerJoin;
+            //PlayerInputManager.instance.onPlayerJoined += HandlePlayerJoin;
         }
     }
 
@@ -44,26 +44,26 @@ public class PConfigManager : MonoBehaviour
         }
     }
 
-    public void HandlePlayerJoin(PlayerInput pi)
-    {
-        Debug.Log("Player Joined " + pi.playerIndex);
+    //public void HandlePlayerJoin(PlayerInput pi)
+    //{
+    //    Debug.Log("Player Joined " + pi.playerIndex);
 
-        if (pi.playerIndex < uiManagers.Count)
-        {
-            UIManager targetUIManager = uiManagers[pi.playerIndex];
-            targetUIManager.ShowConnectedUI();
+    //    if (pi.playerIndex < uiManagers.Count)
+    //    {
+    //        UIManager targetUIManager = uiManagers[pi.playerIndex];
+    //        targetUIManager.ShowConnectedUI();
 
-            if (!playerConfigs.Any(p => p.playerIndex == pi.playerIndex))
-            {
-                pi.transform.SetParent(transform);
-                playerConfigs.Add(new PConfig(pi, targetUIManager)); 
-            }
-        }
-        else
-        {
-            Debug.LogError("Player index exceeds available UI Managers!");
-        }
-    }
+    //        if (!playerConfigs.Any(p => p.playerIndex == pi.playerIndex))
+    //        {
+    //            pi.transform.SetParent(transform);
+    //            playerConfigs.Add(new PConfig(pi, targetUIManager)); 
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Player index exceeds available UI Managers!");
+    //    }
+    //}
 
 
 }

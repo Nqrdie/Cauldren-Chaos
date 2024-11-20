@@ -9,6 +9,6 @@ public class SpawnPlayers : MonoBehaviour
     public void initializePlayer(PConfig pc)
     {
         playerConfig = pc;
-        playerConfig.input.onActionTriggered += Input_onActionTriggered;
+        //playerConfig.input.onActionTriggered += Input_onActionTriggered;
     }
 }

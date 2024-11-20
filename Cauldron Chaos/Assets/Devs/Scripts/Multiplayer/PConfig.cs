@@ -12,7 +12,7 @@ public class PConfig : MonoBehaviour
 
     public PConfig(PlayerInput pi, UIManager manager)
     {
-        playerIndex = pi.playerIndex;
+        //playerIndex = pi.playerIndex;
         uiManager = manager;
         input = GetComponent <CauldronChaos>();
     }

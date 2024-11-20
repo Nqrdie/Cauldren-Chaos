@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
-public class PlayerMovement : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     public CauldronChaos input;
 
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        rb.useGravity = false;  
+        rb.useGravity = false;
     }
 
     public void Push_Performed(InputAction.CallbackContext value)
@@ -55,22 +55,6 @@ public class PlayerMovement : MonoBehaviour
         moveVector.Normalize();
     }
     private void FixedUpdate()
-    {
-        if (IsGrounded(out Vector3 groundNormal))
-        {
-            Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
-            rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
-
-            
-            rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);
-        }
-        else
-        {
-            rb.AddForce(Physics.gravity, ForceMode.Acceleration);
-        }
-    }
-
-    public void Move()
     {
         if (IsGrounded(out Vector3 groundNormal))
         {
@@ -115,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded(out Vector3 groundNormal)
     {
-        
+
         Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
 
 

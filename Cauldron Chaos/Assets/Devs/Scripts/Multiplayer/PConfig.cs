@@ -10,6 +10,10 @@ public class PConfig : MonoBehaviour
     [HideInInspector] public bool isReady;
     public UIManager uiManager;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     public PConfig(PlayerInput pi, UIManager manager)
     {
         //playerIndex = pi.playerIndex;

@@ -7,13 +7,13 @@ public class LevelInitalizer : MonoBehaviour
     [SerializeField] private Transform[] playerSpawns;
     [SerializeField] private GameObject playerPrefab;
 
-    private void Start()
+   /* private void Start()
     {
-        PConfig[] PConfigs = PConfigManager.instance.GetPConfigs().ToArray();
+        PlayerConfig[] PConfigs = PlayerConfigManager.instance.GetPConfigs().ToArray();
         for (int i = 0; i < PConfigs.Length; i++)
         {
             GameObject player = Instantiate(playerPrefab, playerSpawns[i].position, playerSpawns[i].rotation, gameObject.transform);
-            player.GetComponent<PlayerInput>().InitializePlayer(PConfigs[i]);
+            player.GetComponent<PlayerInputHandler>().InitializePlayer(PConfigs[i]);
         }
-    }
+    } */
 }

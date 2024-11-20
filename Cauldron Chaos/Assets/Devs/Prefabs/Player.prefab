@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 5878281200580098360}
   - component: {fileID: 2987540414354856945}
   - component: {fileID: 5957935598109741704}
-  - component: {fileID: 2382029075201313809}
   - component: {fileID: 7834851560056655094}
+  - component: {fileID: 2382029075201313809}
+  - component: {fileID: 756883120858620568}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -138,26 +139,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &2382029075201313809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8142543473584716574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32322c7dfc195e94181c77085d6b49c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  speed: 30
-  rotationSpeed: 600
-  pushStrength: 5
-  groundCheckDistance: 10
-  stickToGroundForce: 10
 --- !u!135 &7834851560056655094
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -179,6 +160,42 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2382029075201313809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142543473584716574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32322c7dfc195e94181c77085d6b49c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  speed: 30
+  rotationSpeed: 600
+  pushStrength: 5
+  groundCheckDistance: 10
+  stickToGroundForce: 10
+  punchSound: {fileID: 0}
+  walkSound: {fileID: 0}
+  playerIndex: 0
+--- !u!114 &756883120858620568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142543473584716574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b5ec5beb9c79049add65e85a5515fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMesh: {fileID: 5878281200580098360}
 --- !u!1 &9051104113445820122
 GameObject:
   m_ObjectHideFlags: 0

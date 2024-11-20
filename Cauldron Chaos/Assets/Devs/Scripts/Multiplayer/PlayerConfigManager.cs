@@ -44,10 +44,10 @@ public class PlayerConfigManager : MonoBehaviour
         }
     }
 
-    //public List<PlayerConfiguration> GetPlayerConfigs()
-    //{
-    //    //return playerConfigs;
-    //}
+    public List<PlayerConfig> GetPlayerConfigs()
+    {
+        return playerConfigs;
+    }
 
     public void ReadyPlayer(int index)
     {
@@ -58,9 +58,9 @@ public class PlayerConfigManager : MonoBehaviour
         //UIManager targetUIManager = playerConfigs[index].uiManager;
         //targetUIManager.ShowReadyUI();
 
-        if (playerConfigs.All(p => p.isReady == true) && playerConfigs.Count >= 2)
+        if (playerConfigs.All(p => p.isReady == true) && playerConfigs.Count >= 1)
         {
-            sceneChanger.LoadMainScene();
+            SceneManager.LoadScene("Roy");
         }
     }
 
@@ -70,16 +70,16 @@ public class PlayerConfigManager : MonoBehaviour
     }
 
 
-    public class PlayerConfiguration
+    public class PlayerConfig
     {
-        public PlayerConfiguration(PlayerInput pi)
+        public PlayerConfig(PlayerInput pi)
         {
-            PlayerIndex = pi.playerIndex;
+            playerIndex = pi.playerIndex;
             Input = pi;
         }
 
         public PlayerInput Input { get; private set; }
-        public int PlayerIndex { get; private set; }
+        public int playerIndex { get; private set; }
         public bool isReady { get; set; }
         public Material playerMaterial { get; set; }
     }

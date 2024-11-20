@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private bool inRange;
     private GameObject enemy;
-    private PlayerConfig playerConfig;
 
     [SerializeField] private LayerMask groundLayer;
 

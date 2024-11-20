@@ -5,32 +5,32 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-
-    private PlayerConfig playerConfig;
     private PlayerMovement mover;
-    private PlayerInput playerInput;
+    private PlayerConfigManager.PlayerConfig playerConfig;
+
+    [SerializeField] private MeshRenderer playerMesh;
+
+    private CauldronChaos controls;
 
     private void Awake()
     {
         mover = GetComponent<PlayerMovement>();
-        playerInput = GetComponent<PlayerInput>();
-        var playerMovers = FindObjectsOfType<PlayerMovement>();
-        var index = playerInput.playerIndex;
-        mover = playerMovers.FirstOrDefault(m => m.GetPlayerIndex() == index);
+        controls = new CauldronChaos();
     }
-    //public void InitializePlayer(PConfig pc)
-    //{
-    //    playerConfig = pc;
-    //    //pc.Input.onActionTriggered += Input_onActionTriggered;
-    //}
+    public void InitializePlayer(PlayerConfigManager.PlayerConfig config)
+    {
+        playerConfig = config;
+        playerMesh.material = config.playerMaterial;
+        config.Input.onActionTriggered += Input_onActionTriggered;
+    }
 
-    //private void Input_onActionTriggered(CallbackContext obj)
-    //{
-    //    if (obj.action.name == playerInput.Move.name)
-    //    {
-    //        OnMove(obj);
-    //    }
-    //}
+    private void Input_onActionTriggered(CallbackContext obj)
+    {
+        if (obj.action.name == controls.Player.Move.name)
+        {
+            OnMove(obj);
+        }
+    }
 
     public void OnMove(CallbackContext context)
     {

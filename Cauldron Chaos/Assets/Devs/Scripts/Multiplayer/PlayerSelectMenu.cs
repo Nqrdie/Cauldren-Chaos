@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerSetupMenuController : MonoBehaviour
+public class PlayerSelectMenu : MonoBehaviour
 {
     private int playerIndex;
 

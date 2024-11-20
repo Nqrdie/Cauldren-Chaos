@@ -70,6 +70,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Move()
+    {
+        if (IsGrounded(out Vector3 groundNormal))
+        {
+            Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
+            rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
+
+
+            rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);
+        }
+        else
+        {
+            rb.AddForce(Physics.gravity, ForceMode.Acceleration);
+        }
+    }
+
 
     private void Update()
     {

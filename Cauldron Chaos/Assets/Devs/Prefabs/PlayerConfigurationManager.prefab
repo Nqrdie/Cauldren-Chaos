@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxPlayers: 4
-  uiManagers: []
 --- !u!114 &7540461444032517480
 MonoBehaviour:
   m_ObjectHideFlags: 0

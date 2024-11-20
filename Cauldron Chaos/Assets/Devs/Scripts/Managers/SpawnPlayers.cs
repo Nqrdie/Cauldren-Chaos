@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SpawnPlayers : MonoBehaviour
 {
-    private PConfig playerConfig;
+    private PlayerConfig playerConfig;
 
-    public void initializePlayer(PConfig pc)
+    public void initializePlayer(PlayerConfig pc)
     {
         playerConfig = pc;
         //playerConfig.input.onActionTriggered += Input_onActionTriggered;

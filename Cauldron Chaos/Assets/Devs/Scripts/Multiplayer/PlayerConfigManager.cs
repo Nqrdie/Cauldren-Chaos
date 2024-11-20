@@ -12,8 +12,6 @@ public class PlayerConfigManager : MonoBehaviour
     private SceneChanger sceneChanger;
     private int playerIndex;
     public static PlayerConfigManager instance { get; private set; }
-    //[SerializeField] private List<UIManager> uiManagers; 
-
 
     private void Awake()
     {
@@ -55,9 +53,6 @@ public class PlayerConfigManager : MonoBehaviour
         playerConfigs[index].isReady = true;
         Debug.Log($"Player {index + 1} is ready!");
 
-        //UIManager targetUIManager = playerConfigs[index].uiManager;
-        //targetUIManager.ShowReadyUI();
-
         if (playerConfigs.All(p => p.isReady == true) && playerConfigs.Count >= 1)
         {
             SceneManager.LoadScene("Roy");
@@ -66,7 +61,7 @@ public class PlayerConfigManager : MonoBehaviour
 
     public void SetPlayerColor(int index, Material color)
     {
-        //playerConfigs[index].playerMaterial = color;
+        playerConfigs[index].playerMaterial = color;
     }
 
 

@@ -12,7 +12,7 @@ public class PlayerConfigManager : MonoBehaviour
     private SceneChanger sceneChanger;
     private int playerIndex;
     public static PlayerConfigManager instance { get; private set; }
-    [SerializeField] private List<UIManager> uiManagers; 
+    //[SerializeField] private List<UIManager> uiManagers; 
 
 
     private void Awake()
@@ -26,25 +26,18 @@ public class PlayerConfigManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
             playerConfigs = new List<PlayerConfig>();
-            //PlayerInputManager.instance.onPlayerJoined += HandlePlayerJoin;
+            PlayerInputManager.instance.onPlayerJoined += HandlePlayerJoin;
         }
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
     {
         Debug.Log("Player Joined " + pi.playerIndex);
-
-        if (pi.playerIndex < uiManagers.Count)
-        {
-            UIManager targetUIManager = uiManagers[pi.playerIndex];
-            targetUIManager.ShowConnectedUI();
-
             if (!playerConfigs.Any(p => p.playerIndex == pi.playerIndex))
             {
                 pi.transform.SetParent(transform);
-                playerConfigs.Add(new PlayerConfig(pi, targetUIManager));
+                playerConfigs.Add(new PlayerConfig(pi));
             }
-        }
         else
         {
             Debug.LogError("Player index exceeds available UI Managers!");
@@ -62,8 +55,8 @@ public class PlayerConfigManager : MonoBehaviour
         playerConfigs[index].isReady = true;
         Debug.Log($"Player {index + 1} is ready!");
 
-        UIManager targetUIManager = playerConfigs[index].uiManager;
-        targetUIManager.ShowReadyUI();
+        //UIManager targetUIManager = playerConfigs[index].uiManager;
+        //targetUIManager.ShowReadyUI();
 
         if (playerConfigs.All(p => p.isReady == true) && playerConfigs.Count >= 2)
         {
@@ -71,9 +64,13 @@ public class PlayerConfigManager : MonoBehaviour
         }
     }
 
+    public void SetPlayerColor(int index, Material color)
+    {
+        //playerConfigs[index].playerMaterial = color;
+    }
 
 
-public class PlayerConfiguration
+    public class PlayerConfiguration
     {
         public PlayerConfiguration(PlayerInput pi)
         {

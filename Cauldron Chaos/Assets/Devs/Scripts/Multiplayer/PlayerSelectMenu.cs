@@ -1,17 +1,63 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class PlayerSetupMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject connectedText;
+    private int playerIndex;
 
-    public void ShowReadyUI()
+    [SerializeField]
+    private TextMeshProUGUI titleText;
+    [SerializeField]
+    private GameObject readyPanel;
+    [SerializeField]
+    private GameObject menuPanel;
+    [SerializeField]
+    private Button readyButton;
+
+    private float ignoreInputTime = 1.5f;
+    private bool inputEnabled;
+    public void setPlayerIndex(int pi)
     {
-        connectedText.SetActive(false);
+        playerIndex = pi;
+        titleText.SetText("Player " + (pi + 1).ToString());
+        ignoreInputTime = Time.time + ignoreInputTime;
     }
 
-    public void ShowConnectedUI()
+    // Start is called before the first frame update
+    void Start()
     {
-        connectedText.SetActive(true);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Time.time > ignoreInputTime)
+        {
+            inputEnabled = true;
+        }
+    }
+
+    public void SelectColor(Material mat)
+    {
+        if (!inputEnabled) { return; }
+
+        PlayerConfigManager.instance.SetPlayerColor(playerIndex, mat);
+        readyPanel.SetActive(true);
+        readyButton.interactable = true;
+        menuPanel.SetActive(false);
+        readyButton.Select();
+
+    }
+
+    public void ReadyPlayer()
+    {
+        if (!inputEnabled) { return; }
+
+        PlayerConfigManager.instance.ReadyPlayer(playerIndex);
+        readyButton.gameObject.SetActive(false);
     }
 }

@@ -29,7 +29,7 @@ public partial class @CauldronChaos: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""f6d95415-fdeb-4bfd-be15-5910886f3e52"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

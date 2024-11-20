@@ -11,7 +11,7 @@ public class Mover : MonoBehaviour
     private Rigidbody rb;
     private bool inRange;
     private GameObject enemy;
-    private PConfig playerConfig;
+    private PlayerConfig playerConfig;
 
     [SerializeField] private LayerMask groundLayer;
 

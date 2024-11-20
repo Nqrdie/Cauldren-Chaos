@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PConfig : MonoBehaviour
+public class PlayerConfig : MonoBehaviour
 {
     public CauldronChaos input;
     [HideInInspector] public int playerIndex;
@@ -18,6 +18,6 @@ public class PConfig : MonoBehaviour
     {
         //playerIndex = pi.playerIndex;
         uiManager = manager;
-        input = GetComponent <CauldronChaos>();
+        //input = GetComponent<>();
     }
 }

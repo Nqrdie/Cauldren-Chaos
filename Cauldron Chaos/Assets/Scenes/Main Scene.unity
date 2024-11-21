@@ -185,6 +185,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6761632266916862518, guid: 71fb423498f82724ca0af5da515f2b78,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5503042373816288948, guid: 71fb423498f82724ca0af5da515f2b78, type: 3}
     m_RemovedGameObjects: []
@@ -1172,7 +1177,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnArea: {fileID: 1805536394}
   objects:
-  - {fileID: 2399754553872595670, guid: 581d16a48d1eb064297cda6109a77ea0, type: 3}
+  - {fileID: 8270519061007778968, guid: 5b2518f50456b804aaaa8e48c7166245, type: 3}
+  - {fileID: 933727998037089115, guid: 53d6936b98c8f6e4c93a215c6e68332f, type: 3}
+  - {fileID: 3617191309726769345, guid: f100eaccda7849d408b10388186282bb, type: 3}
 --- !u!4 &1879567363
 Transform:
   m_ObjectHideFlags: 0

@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float groundCheckDistance = 0.2f;
     [SerializeField] float stickToGroundForce = 10f;
 
+    [SerializeField] float maxVelocity = 5f;
+
     [SerializeField] AudioClip punchSound;
     [SerializeField] AudioClip walkSound;
 
@@ -33,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        rb.useGravity = false;  
+        rb.useGravity = false;
     }
 
     public int GetPlayerIndex()
@@ -41,41 +43,29 @@ public class PlayerMovement : MonoBehaviour
         return playerIndex;
     }
 
-    //public void Push_Performed(InputAction.CallbackContext value)
-    //{
-    //    if (inRange && enemy != null)
-    //    {
-    //        if (enemy.TryGetComponent<Rigidbody>(out Rigidbody enemyRb))
-    //        {
-    //            enemyRb.AddForce(transform.forward * pushStrength, ForceMode.Impulse);
-    //            enemy.transform.LookAt(transform.position);
-    //            enemy.GetComponent<Rigidbody>().velocity = Vector3.zero;
-    //            AudioManager.instance.PlaySound(punchSound);
-    //        }
-    //    }
-    //}
-
     public void SetInputVector(Vector3 inputVector)
     {
         moveVector = inputVector;
         moveVector.Normalize();
     }
+
     private void FixedUpdate()
     {
         if (IsGrounded(out Vector3 groundNormal))
         {
             Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
             rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
-
-
             rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
         }
         else
         {
             rb.AddForce(Physics.gravity, ForceMode.Acceleration);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
         }
-    }
 
+        print(rb.velocity);
+    }
 
     private void Update()
     {
@@ -86,28 +76,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        if (other == other.gameObject.GetComponent<CapsuleCollider>())
-    //        {
-    //            inRange = true;
-    //            enemy = other.gameObject;
-    //        }
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    inRange = false;
-    //}
-
     private bool IsGrounded(out Vector3 groundNormal)
     {
-        
         Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
-
 
         if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer))
         {
@@ -118,5 +89,23 @@ public class PlayerMovement : MonoBehaviour
         groundNormal = Vector3.up;
         return false;
     }
-
 }
+
+
+
+//private void OnTriggerStay(Collider other)
+//{
+//    if (other.CompareTag("Player"))
+//    {
+//        if (other == other.gameObject.GetComponent<CapsuleCollider>())
+//        {
+//            inRange = true;
+//            enemy = other.gameObject;
+//        }
+//    }
+//}
+
+//private void OnTriggerExit(Collider other)
+//{
+//    inRange = false;
+//}

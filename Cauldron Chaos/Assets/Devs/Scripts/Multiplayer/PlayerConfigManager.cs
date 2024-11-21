@@ -55,7 +55,7 @@ public class PlayerConfigManager : MonoBehaviour
 
         if (playerConfigs.All(p => p.isReady == true) && playerConfigs.Count >= 1)
         {
-            SceneManager.LoadScene("Roy");
+            SceneManager.LoadScene("Main Scene");
         }
     }
 

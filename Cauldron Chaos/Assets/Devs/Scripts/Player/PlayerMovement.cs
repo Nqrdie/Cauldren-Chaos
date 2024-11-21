@@ -63,8 +63,6 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Physics.gravity, ForceMode.Acceleration);
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
         }
-
-        print(rb.velocity);
     }
 
     private void Update()

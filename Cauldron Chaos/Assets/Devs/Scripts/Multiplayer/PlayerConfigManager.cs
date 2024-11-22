@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class PlayerConfigManager : MonoBehaviour
 {
     private List<PlayerConfig> playerConfigs;
-    [SerializeField] private int MaxPlayers = 4;
 
     private SceneChanger sceneChanger;
     private int playerIndex;

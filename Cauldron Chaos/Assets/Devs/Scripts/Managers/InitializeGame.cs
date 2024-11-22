@@ -10,7 +10,7 @@ public class LevelInitializer : MonoBehaviour
 
     [SerializeField]
     private GameObject playerPrefab;
-    // Start is called before the first frame update
+    
     void Start()
     {
         var playerConfigs = PlayerConfigManager.instance.GetPlayerConfigs().ToArray();
@@ -19,12 +19,6 @@ public class LevelInitializer : MonoBehaviour
             var player = Instantiate(playerPrefab, PlayerSpawns[i].position, PlayerSpawns[i].rotation, gameObject.transform);
             player.GetComponent<PlayerInputHandler>().InitializePlayer(playerConfigs[i]);
         }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }

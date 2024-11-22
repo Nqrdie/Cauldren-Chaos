@@ -16,7 +16,7 @@ public class ObjectManager : MonoBehaviour
     }
 
 
-    private void SpawnObject()
+    public void SpawnObject()
     {
         int i = Random.Range(0, objects.Length);
         Instantiate(objects[i], Random.insideUnitSphere + spawnArea.transform.position, Quaternion.identity);

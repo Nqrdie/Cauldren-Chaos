@@ -36,10 +36,6 @@ public class PlayerConfigManager : MonoBehaviour
                 pi.transform.SetParent(transform);
                 playerConfigs.Add(new PlayerConfig(pi));
             }
-        else
-        {
-            Debug.LogError("Player index exceeds available UI Managers!");
-        }
     }
 
     public List<PlayerConfig> GetPlayerConfigs()

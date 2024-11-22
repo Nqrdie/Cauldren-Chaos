@@ -6,7 +6,7 @@ using UnityEngine;
 public class SceneChanger : MonoBehaviour
 {
 
-    private const string MainSceneName = "Roy";
+    private const string MainSceneName = "Main Scene";
     private const string EndSceneName = "EndScene";
     public void LoadMainScene()
     {

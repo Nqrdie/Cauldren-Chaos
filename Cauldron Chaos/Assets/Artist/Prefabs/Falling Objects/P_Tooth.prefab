@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   childObject: {fileID: 5196028609286728841}
   timeToFade: 0.5
-  shadowSize: 0.3
+  shadowSize: 0.4
 --- !u!64 &-1338414179831155851
 MeshCollider:
   m_ObjectHideFlags: 0

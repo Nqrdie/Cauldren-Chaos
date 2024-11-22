@@ -35,9 +35,15 @@ public class FallingObject : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        bool hasCollided = true;
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(collision.gameObject);
+            if (!hasCollided)
+            {
+                collision.gameObject.SetActive(false);
+            }
+
+            return;
         }
 
         Destroy(childObject);

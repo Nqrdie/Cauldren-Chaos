@@ -12,6 +12,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private CauldronChaos controls;
 
+
     private void Awake()
     {
         mover = GetComponent<PlayerMovement>();

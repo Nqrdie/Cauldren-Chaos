@@ -1,3 +1,4 @@
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -30,6 +31,29 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         input = new CauldronChaos();
+    }
+
+    private void OnEnable()
+    {
+        input.Player.Fire.performed += Fire_performed;
+    }
+
+    private void OnDisable()
+    {
+        input.Player.Fire.canceled -= Fire_canceled;
+    }
+    private void Fire_performed(CallbackContext obj)
+    {
+        if(inRange)
+        {
+            Vector3 direction = transform.position - enemy.transform.position;
+            enemy.GetComponent<Rigidbody>().AddForce(direction * pushStrength, ForceMode.Impulse);
+        }
+    }
+
+    private void Fire_canceled(CallbackContext obj)
+    {
+
     }
 
     private void Start()
@@ -87,23 +111,23 @@ public class PlayerMovement : MonoBehaviour
         groundNormal = Vector3.up;
         return false;
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (other == other.gameObject.GetComponent<CapsuleCollider>())
+            {
+                inRange = true;
+                enemy = other.gameObject;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        inRange = false;
+    }
 }
 
 
-
-//private void OnTriggerStay(Collider other)
-//{
-//    if (other.CompareTag("Player"))
-//    {
-//        if (other == other.gameObject.GetComponent<CapsuleCollider>())
-//        {
-//            inRange = true;
-//            enemy = other.gameObject;
-//        }
-//    }
-//}
-
-//private void OnTriggerExit(Collider other)
-//{
-//    inRange = false;
-//}

@@ -1,11 +1,13 @@
-using UnityEditor.ShaderGraph;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerMovement : MonoBehaviour
 {
     public CauldronChaos input;
+
+    public UnityEvent<GameObject> onPlayerDeath;
 
     private Vector3 moveVector = Vector3.zero;
 
@@ -31,6 +33,13 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         input = new CauldronChaos();
+        onPlayerDeath = new UnityEvent<GameObject>();
+    }
+
+    private void Start()
+    {
+        rb = gameObject.GetComponent<Rigidbody>();
+        rb.useGravity = false;
     }
 
     private void OnEnable()
@@ -54,12 +63,6 @@ public class PlayerMovement : MonoBehaviour
     private void Fire_canceled(CallbackContext obj)
     {
 
-    }
-
-    private void Start()
-    {
-        rb = gameObject.GetComponent<Rigidbody>();
-        rb.useGravity = false;
     }
 
     public int GetPlayerIndex()

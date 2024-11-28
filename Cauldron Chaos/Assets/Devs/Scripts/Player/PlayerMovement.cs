@@ -6,6 +6,8 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
+
     public CauldronChaos input;
 
     public UnityEvent<GameObject> onPlayerDeath;
@@ -51,7 +53,9 @@ public class PlayerMovement : MonoBehaviour
         if (inRange && enemy != null && enemy != this.gameObject && !pushCooldown && !pushed)
         {
             StartCoroutine(Cooldown());
+            animator.SetBool("Pushing", true);
             Vector3 direction = (enemy.transform.position - transform.position).normalized;
+            enemy.transform.rotation.SetLookRotation(transform.position - enemy.transform.position);
             enemy.GetComponent<Rigidbody>().AddForce(direction * pushStrength, ForceMode.Impulse);
 
             PlayerMovement enemyMovement = enemy.GetComponent<PlayerMovement>();
@@ -65,15 +69,16 @@ public class PlayerMovement : MonoBehaviour
     public IEnumerator Pushed()
     {
         pushed = true;
-        yield return new WaitForSeconds(0f);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2.25f);
         pushed = false;
     }
 
     private IEnumerator Cooldown()
     {
         pushCooldown = true;
-        yield return new WaitForSeconds(pushCooldownTime);
+        yield return new WaitForSeconds (1.125f);
+        animator.SetBool("Pushing", false);
+        yield return new WaitForSeconds(pushCooldownTime - 1.125f);
         pushCooldown = false;
     }
 
@@ -115,7 +120,18 @@ public class PlayerMovement : MonoBehaviour
         if (moveVector != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(moveVector, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            if (!pushed)
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        animator.SetBool("Pushed", pushed);
+        if(moveVector != Vector3.zero)
+        {
+            animator.SetBool("Walking", true);
+        }
+        else
+        {
+            animator.SetBool("Walking", false);
         }
     }
 

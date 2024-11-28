@@ -31,6 +31,11 @@ public class PlayerInputHandler : MonoBehaviour
         {
             OnMove(obj);
         }
+
+        if (obj.action.name == controls.Player.Fire.name)
+        {
+            mover.Push();
+        }
     }
 
     public void OnMove(CallbackContext context)

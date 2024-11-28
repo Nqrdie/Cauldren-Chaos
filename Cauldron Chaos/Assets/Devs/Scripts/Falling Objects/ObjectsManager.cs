@@ -12,18 +12,17 @@ public class ObjectManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(spawn());
+        StartCoroutine(Spawn());
     }
-
 
     public void SpawnObject()
     {
         int i = Random.Range(0, objects.Length);
         Instantiate(objects[i], Random.insideUnitSphere + spawnArea.transform.position, Quaternion.identity);
     }
-    IEnumerator spawn()
+    IEnumerator Spawn()
     {
-        for(int i = 0; i < 50; i++)
+        for(int i = 0; i < Mathf.Infinity; i++)
         {
             SpawnObject();
             yield return new WaitForSeconds(2f);

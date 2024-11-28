@@ -14,6 +14,8 @@ public class FallingObject : MonoBehaviour
     private Vector3 originalSize;
     private Vector3 childSize;
 
+    bool hasCollided;
+
     private void Start()
     {
         objMaterial = gameObject.GetComponent<Renderer>().material;
@@ -35,7 +37,12 @@ public class FallingObject : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        bool hasCollided = true;
+        print("Collided");
+        if (!collision.gameObject.CompareTag("Player"))
+        {
+            hasCollided = true;
+        }
+
         if (collision.gameObject.CompareTag("Player"))
         {
             if (!hasCollided)

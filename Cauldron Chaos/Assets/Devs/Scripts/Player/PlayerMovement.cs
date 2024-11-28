@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -19,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float speed;
     [SerializeField] float rotationSpeed;
+    [SerializeField] float pushCooldownTime;
+    [SerializeField] bool pushCooldown;
     [SerializeField] float pushStrength;
     [SerializeField] float groundCheckDistance = 0.2f;
     [SerializeField] float stickToGroundForce = 10f;
@@ -29,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] AudioClip walkSound;
 
     [SerializeField] private int playerIndex = 0;
+
+    private bool pushed;
 
     private void Awake()
     {
@@ -41,28 +46,35 @@ public class PlayerMovement : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         rb.useGravity = false;
     }
-
-    private void OnEnable()
+    public void Push()
     {
-        input.Player.Fire.performed += Fire_performed;
-    }
-
-    private void OnDisable()
-    {
-        input.Player.Fire.canceled -= Fire_canceled;
-    }
-    private void Fire_performed(CallbackContext obj)
-    {
-        if(inRange)
+        if (inRange && enemy != null && enemy != this.gameObject && !pushCooldown && !pushed)
         {
-            Vector3 direction = transform.position - enemy.transform.position;
+            StartCoroutine(Cooldown());
+            Vector3 direction = (enemy.transform.position - transform.position).normalized;
             enemy.GetComponent<Rigidbody>().AddForce(direction * pushStrength, ForceMode.Impulse);
+
+            PlayerMovement enemyMovement = enemy.GetComponent<PlayerMovement>();
+            if (enemyMovement != null)
+            {
+                enemyMovement.StartCoroutine(enemyMovement.Pushed());
+            }
         }
     }
 
-    private void Fire_canceled(CallbackContext obj)
+    public IEnumerator Pushed()
     {
+        pushed = true;
+        yield return new WaitForSeconds(0f);
+        yield return new WaitForSeconds(0.5f);
+        pushed = false;
+    }
 
+    private IEnumerator Cooldown()
+    {
+        pushCooldown = true;
+        yield return new WaitForSeconds(pushCooldownTime);
+        pushCooldown = false;
     }
 
     public int GetPlayerIndex()
@@ -78,17 +90,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsGrounded(out Vector3 groundNormal))
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
+        if (!pushed)
         {
-            Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
-            rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
-            rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
+            if (IsGrounded(out Vector3 groundNormal))
+            {
+                Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
+                rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
+                rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);
+            }
+            else
+            {
+                rb.AddForce(Physics.gravity, ForceMode.Acceleration);
+            }
         }
-        else
+        if(!IsGrounded(out Vector3 ground))
         {
             rb.AddForce(Physics.gravity, ForceMode.Acceleration);
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
         }
     }
 

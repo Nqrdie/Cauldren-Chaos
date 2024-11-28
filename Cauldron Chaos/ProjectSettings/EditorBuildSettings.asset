@@ -11,16 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Character Selection Scene.unity
     guid: 8cdc2225ea29a6a4d9ca6d2f0951481d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Settings Scene.unity
     guid: 72aeb1679434c5742876e58573bc1a24
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Credits Scene.unity
     guid: eed81acb8228cf04caad3f6a978e9a48
   - enabled: 1
     path: Assets/Scenes/Main Scene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Roy.unity
     guid: 427ffd4fd6c425a48bedf4b9658b0d12
   m_configObjects:

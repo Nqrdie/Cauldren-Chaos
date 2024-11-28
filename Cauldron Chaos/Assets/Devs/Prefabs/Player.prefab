@@ -326,7 +326,7 @@ MonoBehaviour:
     m_Bits: 1
   speed: 3.5
   rotationSpeed: 600
-  pushCooldownTime: 2
+  pushCooldownTime: 3
   pushCooldown: 0
   pushStrength: 2
   groundCheckDistance: 0.3

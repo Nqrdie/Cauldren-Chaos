@@ -414,8 +414,8 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   stickToGroundForce: 1
   maxVelocity: 0.35
-  punchSound: {fileID: 0}
-  walkSound: {fileID: 0}
+  punchSound: {fileID: 8300000, guid: cf5daf624656aba47b32ee82189c5e94, type: 3}
+  walkSound: {fileID: 8300000, guid: fb5f3df255263ed4a94027d0e862d1f0, type: 3}
   playerIndex: 0
 --- !u!114 &6362030706758190224
 MonoBehaviour:

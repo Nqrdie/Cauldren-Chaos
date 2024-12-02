@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(Cooldown());
             animator.SetBool("Pushing", true);
+            AudioManager.instance.PlaySound(punchSound);
             Vector3 direction = (enemy.transform.position - transform.position).normalized;
             enemy.transform.rotation.SetLookRotation(transform.position - enemy.transform.position);
             enemy.GetComponent<Rigidbody>().AddForce(direction * pushStrength, ForceMode.Impulse);
@@ -100,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (IsGrounded(out Vector3 groundNormal))
             {
+                AudioManager.instance.PlaySound(walkSound);
                 Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
                 rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
                 rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);

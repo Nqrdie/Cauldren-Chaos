@@ -1,31 +1,23 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEditor.Rendering;
 using UnityEngine;
-
 public class GameManager : MonoBehaviour
 {
-    // when a player spawns have it added to a list,
-    // if a player dies, have it get taken out of the list
-    // if the list only contains 1 element, the game is over.
-    private PlatformSink _platformSink;
-    private ObjectsManager _objManager;
     private float timer = 0f;
+    private int intTimer;
     private List<GameObject> players = new List<GameObject>();
     //[SerializeField] private SceneChanger sceneChanger;
     [SerializeField] private Transform[] playerSpawns;
     [SerializeField] private GameObject playerPrefab;
-    private Coroutine spawnObjectsRoutine;
     private float objectDelay;
-    private void Awake()
-    {
-        _platformSink = FindObjectOfType<PlatformSink>();
-        _objManager = GetComponent<ObjectsManager>();
-    }
+    [SerializeField] private GameObject spawnArea;
+    [SerializeField] private GameObject[] objects;
+    [SerializeField] private GameObject platform;
+    bool isRunning = false;
+
     private void Start()
     {
+        StartCoroutine(SpawnObject());
         PlayerConfigManager.PlayerConfig[] playerConfigs = PlayerConfigManager.instance.GetPlayerConfigs().ToArray();
         for (int i = 0; i < playerConfigs.Length; i++)
         {
@@ -37,7 +29,12 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime * 1;
-        timer = Mathf.RoundToInt(timer);
+        if (timer > 1f)
+        {
+            intTimer += 1;
+            timer = 0f;
+        }
+        print(intTimer);
         foreach (GameObject player in players)
         {
             if(!player.activeInHierarchy)
@@ -52,38 +49,45 @@ public class GameManager : MonoBehaviour
             //end game
         }
 
-        switch (timer) 
+        switch (intTimer) 
         {
-            case 0f:
-                StartCoroutine(SpawnObjects());
+            case 0:
+                print("lol");
                 objectDelay = 2.5f;
                 break;
-            case 20f:
+            case 20:
                 objectDelay = 2f;
-                StartCoroutine(_platformSink.Sink());
+                if(!isRunning)
+                    StartCoroutine(Sink());
+                print("lol");
                 break;
-            case 30f:
+            case 30:
                 objectDelay = 1.5f;
                 //rotateplatform
                 break;
-            case 40f:
+            case 40:
                 objectDelay = 1f;
-                StartCoroutine(_platformSink.Sink());
+                if (!isRunning)
+                    StartCoroutine(Sink());
                 break;
-            case 50f:
+            case 50:
                 objectDelay = 0.8f;
-                StartCoroutine(_platformSink.Sink());
+                if (!isRunning)
+                    StartCoroutine(Sink());
                 break;
-            case 60f:
+            case 60:
                 objectDelay = 0.6f;
-                StartCoroutine(_platformSink.Sink());
+                if (!isRunning)
+                    StartCoroutine(Sink());
                 break;
-            case 70f:
+            case 70:
                 objectDelay = 0.5f;
-                StartCoroutine(_platformSink.Sink());
+                if (!isRunning)
+                    StartCoroutine(Sink());
                 break;
-            case 80f:
-                StartCoroutine(_platformSink.Sink());
+            case 80:
+                if (!isRunning)
+                    StartCoroutine(Sink());
                 break;  
         }
 
@@ -91,14 +95,27 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private IEnumerator SpawnObjects()
+    public IEnumerator SpawnObject()
     {
-        while (true) 
+        while (true)
         {
-            _objManager.SpawnObject();
+            int i = Random.Range(0, objects.Length);
+            Instantiate(objects[i], Random.insideUnitSphere + spawnArea.transform.position, Quaternion.identity);
             yield return new WaitForSeconds(objectDelay);
         }
     }
 
-    
+    public IEnumerator Sink()
+    {
+        Vector3 pos = platform.transform.position;
+        pos.y = platform.transform.position.y - 0.04f;
+        while (platform.transform.position.y != pos.y)
+        {
+            isRunning = true;
+            print("lol2");
+            platform.transform.position = Vector3.Lerp(platform.transform.position, pos, 1f * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+        isRunning = false;
+    }
 }

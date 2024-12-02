@@ -63,6 +63,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oogbal
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2382fe73c456e8f42b1637f480999e48,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -198,6 +203,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_Oogbal
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2382fe73c456e8f42b1637f480999e48,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

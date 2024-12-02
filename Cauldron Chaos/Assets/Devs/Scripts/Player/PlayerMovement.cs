@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private int playerIndex = 0;
 
+    [SerializeField] AudioSource _audioSource;
+
     private bool pushed;
 
     private void Awake()
@@ -101,10 +103,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (IsGrounded(out Vector3 groundNormal))
             {
-                AudioManager.instance.PlaySound(walkSound);
                 Vector3 moveDirection = Vector3.ProjectOnPlane(moveVector, groundNormal).normalized;
                 rb.velocity += moveDirection * speed * Time.fixedDeltaTime;
                 rb.AddForce(-groundNormal * stickToGroundForce, ForceMode.Acceleration);
+                if (moveDirection ==  Vector3.zero)
+                {
+                    _audioSource.Play();
+                }
             }
             else
             {
@@ -121,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moveVector != Vector3.zero)
         {
+            
             Quaternion toRotation = Quaternion.LookRotation(moveVector, Vector3.up);
             if (!pushed)
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);

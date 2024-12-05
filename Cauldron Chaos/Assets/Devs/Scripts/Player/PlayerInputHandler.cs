@@ -8,6 +8,7 @@ public class PlayerInputHandler : MonoBehaviour
     private PlayerMovement mover;
 
     [SerializeField] private GameObject playerHead;
+    [SerializeField] private GameObject rootPlayer;
 
     private CauldronChaos controls;
 
@@ -20,7 +21,7 @@ public class PlayerInputHandler : MonoBehaviour
     public void InitializePlayer(PlayerConfigManager.PlayerConfig config)
     {
         playerHead = config.playerHead;
-        playerHead.SetActive(true);
+        Instantiate(playerHead, rootPlayer.transform.position, playerHead.transform.rotation, rootPlayer.transform);
         config.Input.onActionTriggered += Input_onActionTriggered;
     }
 

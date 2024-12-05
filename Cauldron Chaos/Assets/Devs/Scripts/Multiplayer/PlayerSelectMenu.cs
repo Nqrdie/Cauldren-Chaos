@@ -13,17 +13,30 @@ public class PlayerSelectMenu : MonoBehaviour
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private Button readyButton;
     [SerializeField] private GameObject[] heads = new GameObject[2];
+    [SerializeField] private GameObject[] headSelection = new GameObject[2];
+    public Sprite[] sprites;
+    public GameObject image;
     private int currentIndex = 0;
 
 
 
     private float ignoreInputTime = 1.5f;
     private bool inputEnabled;
+
+    private void Start()
+    {
+        SetPlayerImage();
+    }
     public void setPlayerIndex(int pi)
     {
         playerIndex = pi;
         titleText.SetText("Player " + (pi + 1).ToString());
         ignoreInputTime = Time.time + ignoreInputTime;
+    }
+
+    private void SetPlayerImage()
+    {
+        image.GetComponent<Image>().sprite = sprites[playerIndex];
     }
 
     void Update()
@@ -47,17 +60,17 @@ public class PlayerSelectMenu : MonoBehaviour
 
     public void ChangeHeadRight()
     {
-        
-        heads[currentIndex].SetActive(false);
+
+        headSelection[currentIndex].SetActive(false);
         currentIndex = (currentIndex + 1) % heads.Length;
-        heads[currentIndex].SetActive(true);
+        headSelection[currentIndex].SetActive(true);
     }
 
     public void ChangeHeadLeft()
     {
-        heads[currentIndex].SetActive(false);
+        headSelection[currentIndex].SetActive(false);
         currentIndex = (currentIndex - 1 + heads.Length) % heads.Length;
-        heads[currentIndex].SetActive(true);
+        headSelection[currentIndex].SetActive(true);
     }
 
     public void ReadyPlayer()

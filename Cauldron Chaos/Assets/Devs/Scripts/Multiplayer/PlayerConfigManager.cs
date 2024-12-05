@@ -54,9 +54,9 @@ public class PlayerConfigManager : MonoBehaviour
         }
     }
 
-    public void SetPlayerColor(int index, Material color)
+    public void SetPlayerHead(int index, GameObject head)
     {
-        playerConfigs[index].playerMaterial = color;
+        playerConfigs[index].playerHead = head;
     }
 
 
@@ -71,7 +71,7 @@ public class PlayerConfigManager : MonoBehaviour
         public PlayerInput Input { get; private set; }
         public int playerIndex { get; private set; }
         public bool isReady { get; set; }
-        public Material playerMaterial { get; set; }
+        public GameObject playerHead { get; set; }
     }
 
 }

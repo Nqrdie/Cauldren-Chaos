@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject spawnArea;
     [SerializeField] private GameObject[] objects;
     [SerializeField] private GameObject platform;
-    bool isRunning = false;
+    [SerializeField] private GameObject mixer;
+    private bool rotate;
+    private bool isRunning = false;
 
     private void Start()
     {
@@ -44,6 +46,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (rotate)
+        {
+            mixer.SetActive(true);
+            mixer.GetComponent<PlatformRotate>().speed = 8f;
+            platform.GetComponent<PlatformRotate>().speed = 3f;
+        }
+
         if (players.Count <= 0)
         {
             //end game
@@ -63,7 +72,7 @@ public class GameManager : MonoBehaviour
                 break;
             case 30:
                 objectDelay = 1.5f;
-                //rotateplatform
+                rotate = true;
                 break;
             case 40:
                 objectDelay = 1f;
@@ -107,15 +116,17 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Sink()
     {
-        Vector3 pos = platform.transform.position;
-        pos.y = platform.transform.position.y - 0.04f;
-        while (platform.transform.position.y != pos.y)
+        Vector3 targetPos = platform.transform.position;
+        targetPos.y -= 0.04f;
+
+        while (Mathf.Abs(platform.transform.position.y - targetPos.y) > 0.001f)
         {
             isRunning = true;
-            print("lol2");
-            platform.transform.position = Vector3.Lerp(platform.transform.position, pos, 1f * Time.deltaTime);
+            platform.transform.position = Vector3.Lerp(platform.transform.position, targetPos, 0.5f * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+
+        platform.transform.position = targetPos;
         isRunning = false;
     }
 }

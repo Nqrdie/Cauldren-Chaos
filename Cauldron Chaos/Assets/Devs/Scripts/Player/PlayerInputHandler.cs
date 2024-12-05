@@ -6,9 +6,8 @@ using static UnityEngine.InputSystem.InputAction;
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerMovement mover;
-    private PlayerConfigManager.PlayerConfig playerConfig;
 
-    [SerializeField] private MeshRenderer playerMesh;
+    [SerializeField] private GameObject playerHead;
 
     private CauldronChaos controls;
 
@@ -20,8 +19,8 @@ public class PlayerInputHandler : MonoBehaviour
     }
     public void InitializePlayer(PlayerConfigManager.PlayerConfig config)
     {
-        playerConfig = config;
-        playerMesh.material = config.playerMaterial;
+        playerHead = config.playerHead;
+        playerHead.SetActive(true);
         config.Input.onActionTriggered += Input_onActionTriggered;
     }
 
